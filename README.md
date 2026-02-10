@@ -11,7 +11,8 @@ Dieses Repository enthält eine in Python entwickelte Version von Vier Gewinnt.
 ## Kontakte
 * Fayz, Mostafa (s55460@edu.campus02.at)
 * van Holst, Kian (s58003@edu.campus02.at)
-
+* Baldauf, Stefan (s58033@edu.campus02.at)
+ 
 ## Anerkennung
 
 ## Referenzen & Unterstützung
