@@ -178,20 +178,35 @@ def stein_setzen(stelle: Tuple[int, int], spieler: bool) -> bool:
     win = False
     
     # Setze den Stein auf das Spielfeld ('O' für gelb, 'X' für rot)
-    spielfeld[stelle] = 'O' if spieler else 'X'
+    spielbrett[stelle] = 'O' if spieler else 'X'
     
     # Durchlaufe alle Quads, in denen diese Position vorkommt
     for i in quads_indices[stelle]:
         # Erhöhe den entsprechenden Zähler im Quad
         # Index 0 = rote Steine (spieler=False=0)
         # Index 1 = gelbe Steine (spieler=True=1)
-        if spieler:
-            quads[i][1] += 1  # Gelber Stein
-        else:
-            quads[i][0] += 1  # Roter Stein
-        
+        quads[i][0 if spieler else 1] += 1
+
         # Prüfe ob dieser Quad nun 4 Steine derselben Farbe hat
-        if quads[i][1 if spieler else 0] == 4:
+        if quads[i][0 if spieler else 1] == 4:
             win = True
     
     return win
+
+
+if __name__ == "__main__":
+    quads, _ = quads_bestimmen()
+    spielfeld = {}  # Key = (spalte, zeile), Value = 'O' oder 'X'
+
+    spieler = True
+    while True:
+        print_spielbrett()
+        if spieler:
+            win = spieler_mensch(spieler)
+        else:
+            win = spieler_computer(spieler)
+        if win:
+            print_spielbrett()
+            print('GEWONNEN!')
+            break
+        spieler = not spieler
