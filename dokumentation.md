@@ -88,7 +88,7 @@
 - [ ] Docstrings
 
 
-## Vorgehensweise:
+## Vorgehensweise Planung Umsetzung:
 
 ### Ansatz
 Wir beginnen mit der Entwicklung eines einfachen Spiels, das die Anforderungen der Aufgabe erfüllt. Sobald dies erreicht ist, können wir entscheiden, ob wir das Spiel interaktiver gestalten möchten. Je nach Zeitaufwand und Ressourcen können wir dies mithilfe von KI-Tools, Tutorials oder durch eigenständiges Programmieren realisieren.
@@ -97,30 +97,11 @@ Wir beginnen mit der Entwicklung eines einfachen Spiels, das die Anforderungen d
 Das Projekt ist mit zwei Branches strukturiert: „dev“ und „main“. Im Branch „dev“ können wir frei entwickeln und unsere Entwürfe hochladen. Sobald eine Klasse oder Funktion fertig ist, wird die Kompatibilität mit anderen Funktionen geprüft, Docstrings und Unittests werden geschrieben. Nur eine stabile Version wird in den Branch „main“ übertragen. Das bedeutet, dass wir die Basisversion erst dann in „main“ veröffentlichen, wenn sie fertig ist. Sollten wir uns entscheiden, das Projekt fortzusetzen und eine interaktivere Version zu erstellen, können wir diese Version 2.0 ebenfalls in „main“ veröffentlichen. Der Branch-Schutz verhindert direkte Commits in den Branch „main“. Dadurch wird sichergestellt, dass der Code von mindestens einem anderen Mitwirkenden geprüft wird und ein linearer Entwicklungsablauf gewährleistet ist.
 
 ### Fokus
-Das ist ein Teamprojekt, wir sind beide für das Ergebnis verantwortlich. Wir werden alles gemeinsam überprüfen, aber Mostafas Fokus liegt etwas stärker auf Deutsch und Kians Fokus etwas stärker auf dem Programmieren, um unsere Stärken optimal zu nutzen.
+Mostafa konzentriert sich auf die grundlegenden Spielfeld-Funktionen wie `print_spielbrett`, `finde_tiefste_zeile`, `spalte_ist_gueltig`, gewonnen und `spielbrett_voll`, die die Basis-Spiellogik und Visualisierung implementieren.
 
-## Klasse & Attribute
-### Basis
-Klasse `VierGewinnt`:
-* Attribute
-    * A
-    * B
-* Methoden
-    * A
-    * B
+Kian fokussiert sich auf das Repository-Setup, die Dokumentation und das Quad-System mit den Funktionen `quad_stellen`, `quads_bestimmen` und `stein_setzen`, das alle möglichen Gewinnkombinationen effizient verwaltet.
 
-Funktionen
-
-### Erweiterte
-Klasse `VierGewinnt`:
-* Attribute
-    * A
-    * B
-* Methoden
-    * A
-    * B
-
-Funktionen
+Stefan implementiert die Bewertungsfunktion bewerten, die Spielzug-Verwaltung (`stein_loeschen`, `zug_liste`), die Spieler-Funktionen (`spieler_mensch`, `spieler_computer`) sowie den Minimax-Algorithmus mit Alpha-Beta-Pruning.
 
 ## Theorie Software Design
 ## Theorie Design Patterns
