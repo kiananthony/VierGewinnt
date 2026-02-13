@@ -1,11 +1,73 @@
 # Dokumentation Vier Gewinnt
 ## Aufgabenverteilung
-### Mostafa
-- [ ] Deutsch Überprüfung
 
-### Kian
-- [ ] Code Überprüfung
-- [x] Repository einrichten + erste Planung
+### 1. Mostafa - Spielfeld-Grundlagen & Basis-Logik
+
+- [ ] Spielfeld-Konstanten definiert
+  - `SPALTEN`, `ZEILEN`, `ZELLEN`, `RICHTUNGEN`
+  
+- [ ] Spielfeld-Darstellung implementiert
+  - `print_spielbrett()` - Visuelle Ausgabe des Spielfelds mit Rahmen
+  
+- [ ] Grundlegende Spielfeld-Funktionen
+  - `finde_tiefste_zeile(spalte)` - Ermittelt freie Position in Spalte
+  - `spalte_ist_gueltig(spalte)` - Validierung von Spielzügen
+  - `gewonnen(spieler)` - Gewinnbedingung prüfen (4 in einer Reihe)
+  - `spielbrett_voll()` - Unentschieden-Erkennung
+
+
+
+### 2. Kian - Repository-Setup, Dokumentation & Quad-System
+
+- [ ] Projekt-Infrastruktur
+  - Repository erstellt und initialisiert
+  - README.md mit Projektbeschreibung erstellt
+  - Dokumentationsstruktur aufgesetzt
+  
+- [ ] Quad-System implementiert
+  - `quad_stellen(stelle, richtung)` - Ermittelt 4er-Sequenzen
+  - `quads_bestimmen()` - Erstellt alle möglichen Gewinn-Kombinationen
+  - `stein_setzen(stelle, spieler)` - Setzt Stein und aktualisiert Quads
+
+
+
+### 3. Stefan - KI-Implementierung & Minimax-Algorithmus
+- [ ] Spielzug-Verwaltung
+  - `stein_loeschen(pos, spieler)` - Rückgängig-Funktion für Minimax
+  - `zug_liste()` - Generiert alle möglichen Züge
+  
+- [ ] Bewertungsfunktion
+  - `bewerten()` - Bewertet Spielsituation heuristisch
+  
+- [ ] Spieler-Implementierungen
+  - `spieler_mensch(spieler)` - Mensch-Computer-Interaktion
+  - `spieler_computer(spieler)` - KI-Züge mit Bewertung
+  
+- [ ] Minimax-Algorithmus
+  - `min_max(tiefe, alpha, beta, spieler, win)` - Alpha-Beta-Pruning
+
+
+## Gemeinsame Verantwortlichkeiten (Alle Teammitglieder)
+
+### Integration & Testing:
+- [ ] End-to-End Tests schreiben
+- [ ] Bug-Fixing nach Testing-Phase
+
+### Dokumentation:
+- [ ] Jeder dokumentiert seine eigenen Funktionen (Docstrings)
+- [ ] Code-Kommentare für komplexe Logik hinzufügen
+- [x] Benutzerhandbuch erweitern
+
+### Unit-Tests:
+- [ ] **Mostafa**: Tests für seine Funktionen
+- [ ] **Kian**: Tests für seine Funktionen
+- [ ] **Stefan**: Tests für seine Funktionen
+
+### Code-Qualität:
+- [ ] Code-Review durchführen
+- [ ] PEP 8 Konformität sicherstellen
+- [ ] Refactoring nach Best Practices
+
 
 ## Merkmalen
 ### Basis Merkmalen
