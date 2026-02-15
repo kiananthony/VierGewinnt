@@ -1,13 +1,5 @@
+from typing import Set, Tuple, Dict, List, Optional
 from collections import defaultdict
-
-spielbrett = {}  # dictionary
-
-SPALTEN = 7
-ZEILEN = 6
-ZELLEN = SPALTEN * ZEILEN
-RICHTUNGEN = [(-1, -1), (0, -1), (1, -1), (-1, 0),
-                  (1, 0), (-1, 1), (0, 1), (1, 1)]
-quads_indices = defaultdict(list)
 
 def print_spielbrett():
     print("\n  0 1 2 3 4 5 6")
@@ -22,11 +14,13 @@ def print_spielbrett():
         print("|")
     print(" +" + "-" * (SPALTEN * 2 - 1) + "+")
 
+
 def finde_tiefste_zeile(spalte):
     for zeile in reversed(range(ZEILEN)):
         if (spalte, zeile) not in spielbrett:
             return zeile
     return None
+
 
 def spalte_ist_gueltig(spalte):
     if (spalte, 0) in spielbrett:
@@ -34,7 +28,9 @@ def spalte_ist_gueltig(spalte):
     if 0 <= spalte < SPALTEN:
         return True
     return False
-## Diese Funktion brauchen wir nicht mehr, hab ich schon ersetzt in stein_setzen funktion.
+
+
+# Diese Funktion brauchen wir nicht mehr, hab ich schon ersetzt in stein_setzen funktion.
 def gewonnen(spieler):
     stein = 'O' if spieler else 'X'
     for pos in spielbrett:
@@ -54,12 +50,6 @@ def gewonnen(spieler):
 
 def spielbrett_voll():
     return len(spielbrett) == SPALTEN * ZEILEN
-from typing import Set, Tuple, Dict, List, Optional
-from collections import defaultdict
-
-# Globale Datenstrukturen für das Quad-System
-quads_indices: Dict[Tuple[int, int], List[int]] = defaultdict(list)
-quads: Dict[int, List[int]] = {}
 
 
 def quad_stellen(stelle: Tuple[int, int], richtung: Tuple[int, int]) -> Optional[Set[Tuple[int, int]]]:
@@ -244,6 +234,7 @@ def bewerten():
       score -= gelbe*10
   return score
 
+
 def zug_liste():
   zuege = []
   for spalte in range(SPALTEN):
@@ -251,6 +242,7 @@ def zug_liste():
     zeile = finde_tiefste_zeile(spalte)
     zuege.append((spalte,zeile))
   return zuege
+
 
 def spieler_mensch(spieler):
   while True:
@@ -261,7 +253,22 @@ def spieler_mensch(spieler):
   win = stein_setzen((spalte,zeile), spieler)
   return win
 
+
 if __name__ == "__main__":
+
+
+    # Globale Datenstrukturen für das Quad-System
+    quads_indices: Dict[Tuple[int, int], List[int]] = defaultdict(list)
+    quads: Dict[int, List[int]] = {}
+
+    spielbrett = {}  # dictionary
+
+    SPALTEN = 7
+    ZEILEN = 6
+    ZELLEN = SPALTEN * ZEILEN
+    RICHTUNGEN = [(-1, -1), (0, -1), (1, -1), (-1, 0),
+                    (1, 0), (-1, 1), (0, 1), (1, 1)]
+    quads_indices = defaultdict(list)
     quads, _ = quads_bestimmen()
     spielfeld = {}  # Key = (spalte, zeile), Value = 'O' oder 'X'
 
