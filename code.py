@@ -185,14 +185,81 @@ def stein_setzen(stelle: Tuple[int, int], spieler: bool) -> bool:
         # Erhöhe den entsprechenden Zähler im Quad
         # Index 0 = rote Steine (spieler=False=0)
         # Index 1 = gelbe Steine (spieler=True=1)
-        quads[i][0 if spieler else 1] += 1
+        quads[i][1 if spieler else 0] += 1
 
         # Prüfe ob dieser Quad nun 4 Steine derselben Farbe hat
-        if quads[i][0 if spieler else 1] == 4:
+        if quads[i][1 if spieler else 0] == 4:
             win = True
     
     return win
 
+def stein_loeschen(pos, spieler):
+  del spielbrett[pos]
+  for i in quads_indices[pos]:
+    quads[i][spieler] -=1
+
+def spieler_computer(spieler):
+  bewertete_zuege = []
+  for zug in zug_liste():
+    win = stein_setzen(zug, spieler)
+    score = min_max(7, -999999, 999999, spieler, win)
+    stein_loeschen(zug, spieler)
+    bewertete_zuege.append((score,zug))
+  bewertete_zuege.sort(reverse=spieler)
+  score, bester_zug = bewertete_zuege[0]
+  win = stein_setzen(bester_zug, spieler)
+  print(bewertete_zuege)
+  print(f'Spieler {1 if spieler else 2} setzt {bester_zug} mit der Bewertung {score}')
+  return win
+
+# rekursiver Alpha-Beta-Suchalgorithmus
+def min_max(tiefe, alpha, beta, spieler, win):
+  if win:
+    return 99999+tiefe if spieler else -99999-tiefe
+  if tiefe == 0 or len(spielbrett) == ZELLEN:
+    return bewerten()
+  spieler = not spieler
+  value = -999999 if spieler else 999999
+  for zug in zug_liste():
+    win = stein_setzen(zug, spieler)
+    score = min_max(tiefe-1, alpha, beta, spieler, win)
+    stein_loeschen(zug, spieler)
+    if spieler:
+      value = max(value, score)
+      alpha = max(value, alpha)
+    else:
+      value = min(value, score)
+      beta = min(value, beta)
+    if alpha >= beta:
+      break
+  return value
+
+def bewerten():
+  score = 0
+  for pos in spielbrett:
+    for i in quads_indices[pos]:
+      gelbe, rote = quads[i]
+      if gelbe > 0 and rote > 0: continue
+      score += rote*10
+      score -= gelbe*10
+  return score
+
+def zug_liste():
+  zuege = []
+  for spalte in range(SPALTEN):
+    if not spalte_ist_gueltig(spalte): continue
+    zeile = finde_tiefste_zeile(spalte)
+    zuege.append((spalte,zeile))
+  return zuege
+
+def spieler_mensch(spieler):
+  while True:
+    spalte = int(input('Ihr Zug (Spalte 0-6): '))
+    if spalte_ist_gueltig(spalte):
+      break
+  zeile = finde_tiefste_zeile(spalte)
+  win = stein_setzen((spalte,zeile), spieler)
+  return win
 
 if __name__ == "__main__":
     quads, _ = quads_bestimmen()
@@ -203,10 +270,15 @@ if __name__ == "__main__":
         print_spielbrett()
         if spieler:
             win = spieler_mensch(spieler)
+            if win:
+                print("Spieler hat gewonnen!")
+                print_spielbrett()
+                break
         else:
             win = spieler_computer(spieler)
-        if win:
-            print_spielbrett()
-            print('GEWONNEN!')
-            break
+            if win:
+                print_spielbrett()
+                print("Computer hat gewonnen")
+                break
+
         spieler = not spieler
