@@ -71,12 +71,12 @@
 
 ## Merkmalen
 ### Basis Merkmalen
-- [ ] 6 Reihen & 7 Spalten
-- [ ] 4 horizontale, vertikale oder diagnoale Steine in einer Farbe führen zu Spielgewinn
-- [ ] Gamemode: Computer (nicht intelligent)
+- [x] 6 Reihen & 7 Spalten
+- [x] 4 horizontale, vertikale oder diagnoale Steine in einer Farbe führen zu Spielgewinn
+- [x] Gamemode: Computer (nicht intelligent)
 - [ ] Gamemode: 1v1 (mit Freund)
-- [ ] Nach jedem Spielzeug, Spiel überprüfen und bzw beenden
-- [ ] Spielbrett anzeigen (mittels matrix, textbasiert)
+- [x] Nach jedem Spielzeug, Spiel überprüfen und bzw beenden
+- [x] Spielbrett anzeigen (mittels matrix, textbasiert)
 
 ### Erweiterte Merkmalen
 - [ ] Interaktiv Spielmenü
@@ -103,5 +103,19 @@ Kian fokussiert sich auf das Repository-Setup, die Dokumentation und das Quad-Sy
 
 Stefan implementiert die Bewertungsfunktion bewerten, die Spielzug-Verwaltung (`stein_loeschen`, `zug_liste`), die Spieler-Funktionen (`spieler_mensch`, `spieler_computer`) sowie den Minimax-Algorithmus mit Alpha-Beta-Pruning.
 
+## Reflexion
+
+Aufgrund von Zeitmangel und anderen Verpflichtungen konnten wir als Team nur die Basisimplementierung des Projekts realisieren. Ein wesentlicher Faktor war, dass wir zu spät mit der Arbeit begonnen haben, wodurch uns die notwendige Zeit fehlte, um die erweiterten Features umzusetzen.
+
+Im Rückblick hätten wir früher mit der Planung und Entwicklung beginnen sollen, um ausreichend Zeit für die Implementierung der erweiterten Merkmale wie das interaktive Spielmenü, die intelligente Computer-KI und die grafische Darstellung mittels Pygame zu haben. Auch die Erstellung von Unittests und vollständigen Docstrings blieb aufgrund der Zeitknappheit unvollständig.
+
+Trotz dieser Einschränkungen haben wir die grundlegenden Anforderungen erfüllt und ein funktionsfähiges Vier-Gewinnt-Spiel entwickelt. 
+
+Ein weiterer Kompromiss, den wir aufgrund der Zeitknappheit eingehen mussten, war der Verzicht auf einen objektorientierten Ansatz mit Klassen. Stattdessen haben wir uns für eine prozedurale Implementierung entschieden, um schneller zu einem funktionsfähigen Ergebnis zu kommen. Obwohl das Spiel dadurch seine Grundfunktionalität erfüllt, hat dieser Ansatz deutliche Nachteile: Der Code ist schwerer erweiterbar, weniger modular und die Wiederverwendbarkeit ist eingeschränkt. Eine klassenbasierte Struktur mit separaten Klassen für das Spielbrett, die Spieler und die Spiellogik hätte eine klarere Trennung der Verantwortlichkeiten ermöglicht und würde das Hinzufügen neuer Features wie verschiedene Spielmodi oder KI-Gegner erheblich vereinfachen. Mit mehr Zeit hätten wir das Projekt definitiv mit einem objektorientierten Design umgesetzt, um eine wartbarere und professionellere Codebasis zu schaffen.
+
 ## Theorie Software Design
-## Theorie Design Patterns
+
+## Theorie Design Patterns - Kians Funktionen
+Ich nutze dieses Pattern **Flyweight** bereits in meiner `quads_bestimmen()` Funktion, wo ich mit `bekannte_stellen` sicherstelle, dass jede einzigartige Viererreihe nur einmal gespeichert wird - wenn ich zum Beispiel die vier Felder (0,0), (1,0), (2,0), (3,0) finde. Dann wird diese exakte Kombination nicht nochmal gespeichert, selbst wenn ich später von einer anderen Startposition auf dieselben vier Felder stoße, denn das frozenset erkennt dass es dieselben Positionen sind und ich überspringe sie mit continue. Was bedeutet dass ich bei einem 7×6 Brett nur 69 einzigartige Quads speichere statt möglicherweise 200+ Duplikate, und das spart massiv Speicher und macht mein Programm schneller weil bei jedem Zug nur diese 69 Quads geprüft werden müssen statt hunderte redundanter Kopien durchzugehen.
+
+Ich nutze das **Iterator** Pattern implizit in meiner `stein_setzen()` Funktion mit der Zeile for i in `quads_indices[stelle]:`. Hier iteriere ich über alle betroffenen Quad-IDs, ohne dass ich wissen muss wie viele es sind oder wie sie intern gespeichert sind. Die quads_indices Datenstruktur ist ein defaultdict(list), die für jede Position eine Liste von Quad-IDs speichert. Wenn ich einen Stein setze, muss ich nur durch diese Liste durchgehen mit `for i in quads_indices[stelle]` und dann` quads[i][1 if spieler else 0] += 1` aufrufen. Ich brauche keinen Index manuell hochzuzählen oder die Länge der Liste zu kennen.
