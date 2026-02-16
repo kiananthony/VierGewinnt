@@ -60,7 +60,7 @@
 
 ### Unit-Tests:
 - [ ] **Mostafa**: Tests für seine Funktionen
-- [ ] **Kian**: Tests für seine Funktionen
+- [x] **Kian**: Tests für seine Funktionen
 - [ ] **Stefan**: Tests für seine Funktionen
 
 ### Code-Qualität:
