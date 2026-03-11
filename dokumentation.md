@@ -115,7 +115,36 @@ Ein weiterer Kompromiss, den wir aufgrund der Zeitknappheit eingehen mussten, wa
 
 ## Theorie Software Design
 
+Wenn ein Modul nur aus wenigen Klassen mit sehr langen Methoden besteht und kaum dokumentiert ist, ergeben sich mehrere Nachteile:
+
+**Schwierige Wartbarkeit**
+Lange Methoden sind schwer zu verstehen und zu debuggen. Änderungen können ungewollte Nebeneffekte verursachen.
+**Geringe Wiederverwendbarkeit**
+Funktionalität ist stark gekoppelt und lässt sich nur schwer in anderen Modulen wiederverwenden.
+**Hohe Komplexität**
+Es ist schwer, den Überblick zu behalten, welche Logik wo implementiert ist, und Tests werden aufwendig.
+**Schwierige Erweiterbarkeit**
+Neue Features einzubauen, ohne bestehenden Code zu brechen, wird riskant.
+
+Verletzte grundlegende Software-Design-Prinzipien:
+
+**Single Responsibility Principle (SRP)**
+Jede Methode/Klasse sollte nur eine Aufgabe haben. Sehr lange Methoden verstoßen häufig dagegen.
+**Separation of Concerns**
+Logik verschiedener Verantwortlichkeiten ist vermischt.
+**DRY – Don’t Repeat Yourself**
+Bei langen Methoden wird oft Code wiederholt.
+**Kapselung / Information Hiding**
+Kaum Dokumentation und starke Abhängigkeiten erschweren den kontrollierten Zugriff auf Daten.
+**Testbarkeit** 
+Lange, gekoppelte Methoden sind schwer isoliert testbar.
+
+
 ## Theorie Design Patterns - Kians Funktionen
 Ich nutze dieses Pattern **Flyweight** bereits in meiner `quads_bestimmen()` Funktion, wo ich mit `bekannte_stellen` sicherstelle, dass jede einzigartige Viererreihe nur einmal gespeichert wird - wenn ich zum Beispiel die vier Felder (0,0), (1,0), (2,0), (3,0) finde. Dann wird diese exakte Kombination nicht nochmal gespeichert, selbst wenn ich später von einer anderen Startposition auf dieselben vier Felder stoße, denn das frozenset erkennt dass es dieselben Positionen sind und ich überspringe sie mit continue. Was bedeutet dass ich bei einem 7×6 Brett nur 69 einzigartige Quads speichere statt möglicherweise 200+ Duplikate, und das spart massiv Speicher und macht mein Programm schneller weil bei jedem Zug nur diese 69 Quads geprüft werden müssen statt hunderte redundanter Kopien durchzugehen.
 
 Ich nutze das **Iterator** Pattern implizit in meiner `stein_setzen()` Funktion mit der Zeile for i in `quads_indices[stelle]:`. Hier iteriere ich über alle betroffenen Quad-IDs, ohne dass ich wissen muss wie viele es sind oder wie sie intern gespeichert sind. Die quads_indices Datenstruktur ist ein defaultdict(list), die für jede Position eine Liste von Quad-IDs speichert. Wenn ich einen Stein setze, muss ich nur durch diese Liste durchgehen mit `for i in quads_indices[stelle]` und dann` quads[i][1 if spieler else 0] += 1` aufrufen. Ich brauche keinen Index manuell hochzuzählen oder die Länge der Liste zu kennen.
+
+## Theorie Design Patterns - Stefan Min-Max Suchstrategie
+
+Ein Problem bei vielen Spielen mit zwei Spielern ist, zu entscheiden welcher Zug langfristig am besten ist. Dabei müssen auch zukünftige Züge des anderen Spielers berücksichtigt werden. Der Lösungsansatz mit dem Minimax-Algorithmus wird hierbei häufig verwendet. Er erzeugt einen Spielbaum von möglichen zukünftigen Spielzügen, also simuliert Spielverläufe bis zu einer bestimmten Tiefe und bewertet anschließend die resultierenden Positionen. Daraus wird dann ausgewählt. In unserem Spiel verwenden wir hierzu die Funktion `min_max()`, sie arbeitet rekursiv und bewertet jeden möglichen Zug und unterscheidet zwischen maximierendem und minimierendem Spieler mit der Funktion `bewerten()`. Um den Algorithmus effizienter zu gestalten, verwenden wir das Alpha-Beta-Pruning. Damit werden Zweige des Suchbaums frühzeitig abgeschnitten, bei denen klar ist, dass sie keine bessere Lösung liefern können. 
