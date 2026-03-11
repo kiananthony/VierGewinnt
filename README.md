@@ -31,7 +31,7 @@ cd VierGewinnt
 Um das Spiel zu starten, führen Sie einfach die Code aus:
 
 ```bash
-python -m vier_gewinnt.py
+python -m main.py
 ```
 
 
